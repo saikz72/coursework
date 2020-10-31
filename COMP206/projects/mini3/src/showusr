@@ -1,0 +1,20 @@
+#Do not include a sh-bang (#!/bin/bash) in this script.
+#Do not write code outside of this function body
+function fname()
+{
+	#check if total number of argument is 0
+	if [[ $# -eq 0 ]] ; then
+		FNAME="ERROR"					#set FNAME variable to ERROR
+		return 1
+	fi
+	
+	#check if the argument pass doesnt exist in the sessions logged in
+	if [[ `who | grep $1` == "" ]] ; then
+		FNAME="NOTFOUND"					#set FNAME variable to NOTFOUND
+		return 0
+	else
+		FNAME=`pinky "$1" -f | awk '{print $2}'`	#sets FNAME to the firstname of the user
+		return 0
+	fi
+
+}
