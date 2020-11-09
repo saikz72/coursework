@@ -1,11 +1,10 @@
 #ignore file
 
 #compile class file
-
+*.class
 #log file
-
+*.log
 #all dot files
-*.
-!/.gitignore
+*.DS_Store
 
 
