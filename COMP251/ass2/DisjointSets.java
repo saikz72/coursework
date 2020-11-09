@@ -52,6 +52,7 @@ public class DisjointSets {
 
     /* find resentative of element i */
     public int find(int i) {
+        // need to handle edge case when i is not in the data structure
         if (par[i] == i)
             return i;
         par[i] = find(par[i]); // path compression
