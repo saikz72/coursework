@@ -52,17 +52,25 @@ public class DisjointSets {
 
     /* find resentative of element i */
     public int find(int i) {
-        /* Fill this method (The statement return 0 is here only to compile) */
-        return 0;
-
+        if (par[i] == i)
+            return i;
+        par[i] = find(par[i]); // path compression
+        return par[i];
     }
 
     /* merge sets containing elements i and j */
     public int union(int i, int j) {
-
-        /* Fill this method (The statement return 0 is here only to compile) */
-        return 0;
-
+        if (find(i) != find(j)) {
+            if (rank[find(i)] == rank[find(j)]) { // same rank
+                par[find(j)] = find(i);
+                ++rank[find(i)]; // increment rank
+            } else if (rank[find(i)] > rank[find(j)]) { // rank i > rank j
+                par[find(j)] = find(i);
+            } else { // rank j > rank i
+                par[find(i)] = find(j);
+            }
+        }
+        return rank[i]; // elements would have the same rep
     }
 
     public static void main(String[] args) {
