@@ -20,15 +20,24 @@ class Assignment implements Comparator<Assignment> {
 	 */
 	@Override
 	public int compare(Assignment a1, Assignment a2) {
-		// TODO Implement this
-
-		return 0;
+		// should I order based on deadline or weights?????? //weight maximization
+		if (a1.deadline == a2.deadline) {
+			if (a1.weight > a2.weight)
+				return -1;
+			else if (a1.weight < a2.weight)
+				return 1;
+			else
+				return 0;
+		} else if (a1.deadline > a2.deadline)
+			return 1;
+		else
+			return -1;
 	}
 }
 
 public class HW_Sched {
 	ArrayList<Assignment> Assignments = new ArrayList<Assignment>();
-	int m;
+	int m; // number of assignments todo
 	int lastDeadline = 0;
 
 	protected HW_Sched(int[] weights, int[] deadlines, int size) {
@@ -48,19 +57,30 @@ public class HW_Sched {
 	 *         at time i.
 	 */
 	public int[] SelectAssignments() {
-		// TODO Implement this
-
 		// Sort assignments
 		// Order will depend on how compare function is implemented
 		Collections.sort(Assignments, new Assignment());
-
+		Assignments.forEach((n) -> System.out
+				.println("number = " + n.number + " deadline = " + n.deadline + " weight = " + n.weight));
 		// If schedule[i] has a value -1, it indicates that the
 		// i'th timeslot in the schedule is empty
 		int[] schedule = new int[lastDeadline];
-		for (int i = 0; i < schedule.length; ++i) {
-			schedule[i] = -1;
+		int j = 0; // tracks the index of assignments in the list
+		for (int i = 0; i < schedule.length; i++) {
+			schedule[i] = -1; // initialize all slots with -1
 		}
-
+		schedule[0] = Assignments.get(0).number; // my greedy choice = the howework with highest weight
+		int m = 0;
+		for (int i = 0; i < schedule.length; ++i) {
+			// check if assignments don't overlap
+			int idx = schedule[m]; // index of prev choice
+			if (Assignments.get(j).deadline != Assignments.get(idx).deadline) {
+				int pos = Assignments.get(j).number;
+				schedule[i] = pos;
+				j++;
+				m++;
+			}
+		}
 		return schedule;
 	}
 }
