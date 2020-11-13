@@ -69,18 +69,30 @@ public class HW_Sched {
 		for (int i = 0; i < schedule.length; i++) {
 			schedule[i] = -1; // initialize all slots with -1
 		}
-		schedule[0] = Assignments.get(0).number; // my greedy choice = the howework with highest weight
-		int m = 0;
+		ArrayList<Assignment> l = get(Assignments);
+		schedule[0] = l.get(0).number; // greedy choice = the howework with highest weight
 		for (int i = 0; i < schedule.length; ++i) {
 			// check if assignments don't overlap
-			int idx = schedule[m]; // index of prev choice
-			if (Assignments.get(j).deadline != Assignments.get(idx).deadline) {
-				int pos = Assignments.get(j).number;
-				schedule[i] = pos;
-				j++;
-				m++;
+			if (i < l.size()) {
+				schedule[i] = l.get(i).number;
 			}
 		}
 		return schedule;
+	}
+
+	public ArrayList<Assignment> get(List<Assignment> l) {
+		HashSet<Assignment> seen = new HashSet<>();
+		ArrayList<Assignment> ll = new ArrayList<>();
+		ll.add(l.get(0));
+		seen.add(l.get(0));
+		for (int i = 1; i < l.size(); i++) {
+			if (l.get(i - 1).deadline != l.get(i).deadline) {
+				if (!seen.contains(l.get(i))) {
+					ll.add(l.get(i));
+					seen.add(l.get(i));
+				}
+			}
+		}
+		return ll;
 	}
 }
