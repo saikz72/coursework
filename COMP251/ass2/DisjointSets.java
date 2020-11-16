@@ -62,16 +62,22 @@ public class DisjointSets {
     /* merge sets containing elements i and j */
     public int union(int i, int j) {
         if (find(i) != find(j)) {
-            if (rank[find(i)] == rank[find(j)]) { // same rank
-                par[find(j)] = find(i);
-                ++rank[find(i)]; // increment rank
-            } else if (rank[find(i)] > rank[find(j)]) { // rank i > rank j
-                par[find(j)] = find(i);
+            int repI = find(i);
+            int repJ = find(j);
+            if (rank[repI] == rank[repJ]) { // same rank
+                par[repI] = repJ;
+                ++rank[repJ]; // increment rank
+                return repJ;
+            } else if (rank[repI] > rank[repJ]) { // rank i > rank j
+                par[repJ] = repI;
+                return repI;
             } else { // rank j > rank i
-                par[find(i)] = find(j);
+                par[repI] = repJ;
+                return repJ;
             }
+        } else {
+            return find(i);
         }
-        return rank[i]; // elements would have the same rep
     }
 
     public static void main(String[] args) {

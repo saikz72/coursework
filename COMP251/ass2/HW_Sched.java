@@ -56,8 +56,6 @@ public class HW_Sched {
 		// Sort assignments
 		// Order will depend on how compare function is implemented
 		Collections.sort(Assignments, new Assignment());
-		Assignments.forEach((n) -> System.out
-				.println("number = " + n.number + " deadline = " + n.deadline + " weight = " + n.weight));
 		// If schedule[i] has a value -1, it indicates that the
 		// i'th timeslot in the schedule is empty
 		int[] schedule = new int[lastDeadline];
@@ -66,14 +64,14 @@ public class HW_Sched {
 		}
 
 		HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
-		for(int i = 0; i < Assignments.size(); ++i) {
+		for (int i = 0; i < Assignments.size(); ++i) {
 			int deadline = Assignments.get(i).deadline;
 			ArrayList<Integer> list = new ArrayList<>();
-			if(!map.containsKey(deadline)) {
+			if (!map.containsKey(deadline)) {
 				list.add(deadline);
 				list.add(1);
 				map.put(deadline, list);
-			}else {
+			} else {
 				int count = 1 + map.get(deadline).get(1);
 				map.get(deadline).set(1, count);
 				map.put(deadline, map.get(deadline));
@@ -82,37 +80,28 @@ public class HW_Sched {
 
 		int j = 0;
 		for (int i = 0; i < schedule.length; ++i) {
-			if(j < Assignments.size()) {
+			if (j < Assignments.size()) {
 				int deadline = Assignments.get(j).deadline;
-				int number  = Assignments.get(j).number;
-				int val = map.get(deadline).get(1);			// frequency
-				if(map.get(deadline).get(0) != 0) {		// deadline has to be > frequency
+				int number = Assignments.get(j).number;
+				if (map.get(deadline).get(0) != 0) { // deadline has to be > frequency
 					schedule[i] = number;
 					int count = map.get(deadline).get(0) - 1;
 					map.get(deadline).set(0, count);
 					j++;
-				}else{
-					for(int k = j; k < Assignments.size(); k++){
+				} else {
+					for (int k = j; k < Assignments.size(); k++) {
 						int deadline2 = Assignments.get(k).deadline;
-						int number2  = Assignments.get(k).number;
-						if(deadline != deadline2){
+						int number2 = Assignments.get(k).number;
+						if (deadline != deadline2) {
 							schedule[i] = number2;
-							j = k+1;
+							j = k + 1;
 							break;
 						}
 					}
 				}
-				
+
 			}
 		}
 		return schedule;
 	}
 }
-
-
-
-
-
-
-
-
