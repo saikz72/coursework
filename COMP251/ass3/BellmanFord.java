@@ -77,7 +77,9 @@ public class BellmanFord {
          * Returns the list of nodes along the shortest path from the object source to
          * the input destination If not path exists an Error is thrown
          */
-
+	if(this.source == destination){
+		return new int[]{0};	
+	}
         List<Integer> list = new ArrayList<Integer>();
         list.add(destination);
         int temp = destination;
