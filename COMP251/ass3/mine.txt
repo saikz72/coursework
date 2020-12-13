@@ -1,0 +1,51 @@
+public static ArrayList<Integer> pathDFS(Integer source, Integer destination, WGraph graph) {
+		ArrayList<Integer> path = new ArrayList<Integer>();
+		path.add(source);
+		// source === destination
+		// if (source == destination) {
+		// return path;
+		// }
+		int V = graph.getNbNodes();
+		int[][] adj = __init__(V, graph);
+		boolean[] visited = new boolean[V];
+		pathDFSUtil(path, V, destination, visited, adj);
+		return path;
+	}
+
+	private static void pathDFSUtil(ArrayList<Integer> path, int V, int destination, boolean[] visited, int[][] adj) {
+		boolean neigbour;
+		int prev = 0;
+
+
+		while (!path.isEmpty()) {
+			int n = path.size();
+			prev = path.get(n - 1);
+			if (prev == destination) {
+				break;
+			}
+			neigbour = false;
+			visited[prev] = true;
+			for (int i = 0; i < V; ++i) {
+				if (adj[prev][i] == 1 && !visited[i]) {
+					path.add(i);
+					neigbour = true;
+					break;
+				}
+			}
+			if (!neigbour) {
+				path.remove(n - 1);
+			}
+		}
+	}
+
+	private static int[][] __init__(int V, WGraph graph) {
+		int[][] adj = new int[V][V];
+		for (int i = 0; i < V; ++i) {
+			for (int j = 0; j < V; ++i) {
+				if (graph.getEdge(i, j) != null && graph.getEdge(i, j).weight > 0) {
+					adj[i][j] = 1;
+				}
+			}
+		}
+		return adj;
+	}
