@@ -26,6 +26,8 @@ public class BellmanFord {
 
     BellmanFord(WGraph g, int source) throws NegativeWeightException {
         /*
+
+
          * Constructor, input a graph and a source Computes the Bellman Ford algorithm
          * to populate the attributes distances - at position "n" the distance of node
          * "n" to the source is kept predecessors - at position "n" the predecessor of
