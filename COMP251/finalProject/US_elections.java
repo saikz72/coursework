@@ -1,6 +1,6 @@
-package finalProject;
-
 import java.util.*;
+
+
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -10,10 +10,9 @@ public class US_elections {
 		int total = getTotalVotes(delegates);
 		int B = getVotesNeededForBiden(total);
 		int T = getVotesNeededForTrump(total);
-		List<Integer> uL = new ArrayList<>();
-		List<Integer> w = new ArrayList<>();
-		List<Integer> v = new ArrayList<>();
-		
+		ArrayList<Integer> uVoters = __init__();
+		ArrayList<Integer> w =  __init__();
+		ArrayList<Integer> v = __init__();
 		for(int i = 0; i < num_states; ++i){
 			if(votes_Biden[i] > votes_Trump[i] + votes_Undecided[i]){
 				B -= delegates[i];
@@ -23,13 +22,16 @@ public class US_elections {
 				T -= delegates[i];
 				continue;
 			}
-			uL.add(i);
-			int t = votes_Biden[i] + votes_Trump[i] + votes_Undecided[i]; 
-			int x = (t / 2) + 1;
-			int c = Math.abs(x - votes_Biden[i]);
-			v.add(c);
-			
+			uVoters.add(i);
+			int pos = votes_Biden[i] + votes_Trump[i] + votes_Undecided[i]; 
+			int pre = (pos / 2) + 1;
+			int cur = Math.abs(pre - votes_Biden[i]);
+			v.add(cur);
+
 		}
+		for(int i = 0; i < uVoters.size(); ++i) {
+			w.add(delegates[uVoters.get(i)]);
+		}	
 		if(T <= 0){
 			return -1;
 		}
@@ -37,24 +39,31 @@ public class US_elections {
 			return 0;
 		}
 		
-		return convinced(delegates, uL, v, B);
-	}
-	
-	public static int convinced(int [] delegates, List<Integer> uL, List<Integer> v, int B){
-		Collections.sort(v);
-		int min = 0;
-		for(int i = 0; i < v.size(); ++i){
-			int j = uL.get(i);
-			int votes = delegates[j];
-			B -= v.get(i);
-			min += v.get(i);
-			if(B <= 0){
-				break;
-			}
+		int [] val = new int[v.size()];
+		for(int i = 0; i < val.length; ++i) {
+			val[i] = v.get(i);
 		}
-		return min;
+		
+		int [] wt = new int[w.size()];
+		for(int i = 0; i < wt.length; ++i) {
+			wt[i] = w.get(i);
+		}
+		
+		int sum = 0;
+		for(int i = 0; i < wt.length; ++i) {
+			sum += wt[i];
+		}
+		int [] arr = new int[sum + 1];
+		for(int i = 1; i <= sum; ++i) {
+			arr [i] = Integer.MAX_VALUE;
+		}
+		return bottomUpDP(val, wt, B, sum, arr, Integer.MAX_VALUE);
 	}
-	
+
+	public static ArrayList<Integer> __init__() {
+		return new ArrayList<Integer>();
+	}
+
 	public static int getTotalVotes(int [] arr){
 		int sum = 0;
 		for(int i : arr){
@@ -62,17 +71,33 @@ public class US_elections {
 		}
 		return sum;
 	}
-	
+
 	public static int getVotesNeededForBiden(int total){
 		return (total / 2) + 1;
-		
 	}
-	
+
 	public static int getVotesNeededForTrump(int total){
 		if(total % 2 != 0) {
 			return (total / 2) + 1;
 		}
 		return total / 2;
+	}
+
+	public static int bottomUpDP(int[] v, int[] w, int B, int maxWeight, int[] minValue, int bigNum) {
+		for(int i = 0; i < v.length; ++i) {
+			for(int j = maxWeight; j >= w[i]; --j) {
+				if(minValue[j - w[i]] != bigNum) {
+					minValue[j] = Math.min(minValue[j], minValue[j - w[i]] + v[i]);
+				}
+			}
+		}
+		int answer = bigNum;
+		int j = B;
+		while(j <= maxWeight) {
+			answer = Math.min(answer, minValue[j]);
+			j++;
+		}
+		return answer;
 	}
 
 	public static void main(String[] args) {
@@ -98,11 +123,7 @@ public class US_elections {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		}
-//		int [] d = {7, 6, 2};
-//		int [] b = {2401, 2401, 750};
-//		int [] t = {3299, 2399, 750};
-//		int [] u = {0,0,99};
-//		System.out.println(solution(3, d, b, t, u));
 	}
+
 
 }
