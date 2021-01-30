@@ -11,7 +11,7 @@ int parse(char *string, char *tokens[]) {
 	while(*(string+s) != '\0') {
 		// skip leading spaces
 		for(;*(string+s)==' ';s++);  // super cool no?!
-
+	
 		// exit if end of string
 		if (*(string+s) == '\0') break;
 
@@ -39,6 +39,7 @@ int main(int argc, char *argv[]){
 	//read from cmd
 	printf("Welcome to thuram's shell\n"); 
 	printf("Version 1.0 created January 2020\n");
+
 	while(true){
 		printf("$ -> ");
 		fgets(input, 999, stdin);

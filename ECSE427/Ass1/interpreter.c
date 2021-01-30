@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include "shell.h"
+#include "shellmemory.h"
 /****** private helper functions *******/
 
 //display all commands 
@@ -24,17 +25,35 @@ int quit(){
 
 //runs a script that user passed 
 int runScript(char *script){
-	return 0;
+	int errorCode = 0;
+	char line[100];
+	char* tokens[100];
+	FILE *p = fopen(script, "rt");
+	fgets(line, 99, p);
+	while(!feof(p)){
+		errorCode = parse(line, tokens);
+		if(errorCode != 0){
+			fclose(p);
+			return errorCode;
+		}
+		fgets(line, 99, p);
+	}
+	fclose(p);
+	return errorCode;
 }
 
 //assigns a value to shell memory
 int setVar(char *var, char *str){
-	return 0;
+	int errorCode;
+	errorCode = set(var, str);
+	return errorCode;
 }
 
 //displays the string assigned to var
-int print(char *var){
-	return 0;
+int printVar(char *var){
+	int errorCode;
+	errorCode = print(var);
+	return errorCode;
 }
 
 void upperCaseInterpreter(char *tokens[]){	
@@ -55,8 +74,8 @@ int interpreter(char *tokens[]){
 		errorCode = quit();
 	}else if(strcmp(tokens[0], "print\n") == 0){
 		//user inputs print
-		errorCode = print(tokens[1]);
-	}else if(strcmp(tokens[0], "run\n") == 0){
+		errorCode = printVar(tokens[1]);
+	}else if(strcmp(tokens[0], "run") == 0){
 		//user inputs run
 		errorCode = runScript(tokens[1]);
 	}else if(strcmp(tokens[0], "set\n") == 0){
@@ -65,3 +84,4 @@ int interpreter(char *tokens[]){
 	}
 	return errorCode;
 }
+
