@@ -4,22 +4,23 @@
 #include <string.h>
 #include "interpreter.h"
 
-int parse(char *string, char *tokens[]) {
+int parse(char *input, char *tokens[]) {
+	int errorCode;
 	char buffer[1000];
-	int s=0, b=0, t=0; // counters for string, buffer and tokens
+	int i=0, b=0, t=0; // counters for input, buffer and tokens
 
-	while(*(string+s) != '\0') {
+	while(*(input+i) != '\0') {
 		// skip leading spaces
-		for(;*(string+s)==' ';s++);  // super cool no?!
+		for(;*(input+i)==' ';i++);  // super cool no?!
 	
 		// exit if end of string
-		if (*(string+s) == '\0') break;
+		if (*(input+i) == '\0') break;
 
 		// otherwise, add word to buffer
 		b=0;
-		while(*(string+s)!=' ' && *(string+s)!='\0') {
-			buffer[b] = *(string+s);
-			s++;
+		while(*(input+i)!=' ' && *(input+i)!='\0') {
+			buffer[b] = *(input+i);
+			i++;
 			b++;
 		}
 		buffer[b]='\0'; // make it a string
@@ -29,7 +30,8 @@ int parse(char *string, char *tokens[]) {
 		t++;
 	}
 	tokens[t] = NULL;
-	return interpreter(tokens);
+	errorCode = interpreter(tokens);
+	return errorCode;
 }
 
 int main(int argc, char *argv[]){
@@ -41,8 +43,9 @@ int main(int argc, char *argv[]){
 	printf("Version 1.0 created January 2020\n");
 
 	while(true){
-		printf("$ -> ");
+		// printf("$ -> ");
 		fgets(input, 999, stdin);
+		strtok(input, "\n");
 		errorCode = parse(input, tokens);
 		if(errorCode == -1){
 			printf("Unknown command\n");

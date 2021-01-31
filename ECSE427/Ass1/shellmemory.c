@@ -10,16 +10,11 @@ struct MEM{
 struct MEM memory[1000];
 int size = 0;		//keeps track of the size of memory used
 
-void solve(){
-	memory[0].var = "x";
-	printf("%s\n", memory[0].var);
-}
-
 int set(char* varName, char* str){
 	int i;
 	int errorCode = -1;
 	for(i = 0; i < size; ++i){
-		if(strcmp(memory[i].var, str) == 0){
+		if(strcmp(memory[i].var, varName) == 0){
 			memory[i].value = str;
 			errorCode = 0;
 			return errorCode;
@@ -45,6 +40,7 @@ int print(char *var){
 			return errorCode;
 		}
 	}
+	errorCode = -2;		//valid command but variable does not exist
 	printf("Variable does not exist\n");
 	return errorCode;
 }

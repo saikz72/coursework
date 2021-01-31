@@ -1,0 +1,7 @@
+help
+set name saikou
+print name
+set name modou
+print name
+print x 
+quit
