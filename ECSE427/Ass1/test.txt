@@ -3,5 +3,10 @@ set name saikou
 print name
 set name modou
 print name
-print x 
+print x
+set surname ceesay
+set rev 10
+set dev 20
+run test.txt 
+print y
 quit

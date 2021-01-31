@@ -3,6 +3,9 @@
 #include <string.h>
 #include "shell.h"
 #include "shellmemory.h"
+#include <time.h>
+clock_t start, end;
+long cpu_time_used;
 /****** private helper functions *******/
 
 //display all commands 
@@ -34,15 +37,24 @@ int runScript(char *script){
 	}
 	char line[1000];
 	char* tokens[1000];
+	
 	FILE *p = fopen(script, "rt");
+	
 	fgets(line, 990, p);
+	strtok(line, "\n");
 	while(!feof(p)){
 		errorCode = parse(line, tokens);
 		if(errorCode != 0){
+			start = clock();
 			fclose(p);
+			end = clock();
+			cpu_time_used = ((long) (end - start));
+			printf("%s %ld\n", "CPU cycles elapsed:", cpu_time_used);
 			return errorCode;
 		}
 		fgets(line, 999, p);
+		strtok(line, "\n");
+
 	}
 	fclose(p);
 	return errorCode;

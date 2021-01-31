@@ -26,6 +26,11 @@ int set(char* varName, char* str){
 		size++;
 		errorCode = 0;
 		return errorCode;
+	}else{
+		errorCode = -2;
+		printf("Your shell is out of memory\n");
+		exit(0);
+		return errorCode;
 	}
 	return errorCode;
 }

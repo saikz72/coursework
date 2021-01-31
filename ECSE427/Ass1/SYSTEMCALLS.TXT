@@ -1,0 +1,7 @@
+- two library calls without system calls
+1) strcmp - CPU cycles elapsed: 2
+2) strtok - CPU cycles elapsed: 4
+
+- two library calls with system calls
+1) fopen - open() - CPU cycles elapsed: 195
+2) fclose - close() - CPU cycles elapsed: 14

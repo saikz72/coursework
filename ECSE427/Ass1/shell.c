@@ -4,6 +4,7 @@
 #include <string.h>
 #include "interpreter.h"
 
+
 int parse(char *input, char *tokens[]) {
 	int errorCode;
 	char buffer[1000];
@@ -43,9 +44,11 @@ int main(int argc, char *argv[]){
 	printf("Version 1.0 created January 2020\n");
 
 	while(true){
-		// printf("$ -> ");
+		printf("$ ");
 		fgets(input, 999, stdin);
+		
 		strtok(input, "\n");
+		
 		errorCode = parse(input, tokens);
 		if(errorCode == -1){
 			printf("Unknown command\n");
