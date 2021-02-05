@@ -1,5 +1,6 @@
 package Q1;
 
+
 import java.util.*;
 
 public class Node {
@@ -9,6 +10,7 @@ public class Node {
     private int costSoFar;
     private int depth;
     private List<Node> children;
+    private boolean visited;		//avoid repetition
 
     // constructor for a state
     public Node(int[][] puzzle) {
@@ -18,6 +20,11 @@ public class Node {
         this.depth = 0;
         this.parent = null;
     }
+    
+    public void setVisited(boolean visited) {
+    	this.visited = visited;
+    }
+   
 
     // returns the puzzle
     public int[][] getPuzzle() {
@@ -55,6 +62,7 @@ public class Node {
     }
 
     public List<Node> getChildren() {
+    	this.setVisited(true);
         Node n1 = moveUp(this.getPuzzle()); // moves the tile up
         Node n2 = moveDown(this.getPuzzle()); // moves the tile down
         Node n3 = moveLeft(this.getPuzzle()); // moves the tile left
@@ -117,8 +125,8 @@ public class Node {
         for (int i = 0; i < puzzle.length; ++i) {
             for (int j = 0; j < puzzle[i].length; ++j) {
                 if (puzzle[i][j] == 0) {
-                    if (i - 1 >= 0 && j - 1 >= 0) { // check if possible to move left
-                        int[][] newPuzzle = swapPieces(i, j, i - 1, j - 1, puzzle);
+                    if (j - 1 >= 0) { // check if possible to move left
+                        int[][] newPuzzle = swapPieces(i, j, i , j - 1, puzzle);
                         return new Node(newPuzzle);
                     }
                 }
@@ -131,7 +139,7 @@ public class Node {
         for (int i = 0; i < puzzle.length; ++i) {
             for (int j = 0; j < puzzle[i].length; ++j) {
                 if (puzzle[i][j] == 0) {
-                    if (i + 1 <= 3 && j + 1 >= 3) { // check if possible to move right
+                    if (i + 1 <= 2 && j + 1 <= 2) { // check if possible to move right
                         int[][] newPuzzle = swapPieces(i, j, i + 1, j + 1, puzzle);
                         return new Node(newPuzzle);
                     }
@@ -144,11 +152,19 @@ public class Node {
     // tileI and tileJ represents the 0 tile's position
     // pieceI and pieceJ represents the piece we are swapping with the tile
     private int[][] swapPieces(int tileI, int tileJ, int pieceI, int pieceJ, int[][] puzzle) {
-        int temp = puzzle[tileI][tileJ];
-        puzzle[tileI][tileJ] = puzzle[pieceI][pieceJ];
-        puzzle[pieceI][pieceJ] = temp;
-        return puzzle;
+    	int [][] copy = new int[2][3];
+    	for(int i =0; i < puzzle.length; ++i) {
+    		for(int j = 0; j < puzzle[i].length; ++j) {
+    			copy[i][j] = puzzle[i][j];
+    		}
+    	}
+        int temp = copy[tileI][tileJ];
+        copy[tileI][tileJ] = copy[pieceI][pieceJ];
+        copy[pieceI][pieceJ] = temp;
+        return copy;
     }
+    
+
 
     public void print() {
         for (int i = 0; i < this.puzzle.length; ++i) {
