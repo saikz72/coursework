@@ -11,14 +11,31 @@ public class Node {
     private int depth;
     private List<Node> children;
     private boolean visited;		//avoid repetition
+    private String stateID;
 
     // constructor for a state
     public Node(int[][] puzzle) {
         this.puzzle = puzzle;
-        children = new ArrayList<>();
+        this.children = new ArrayList<>();
         this.costSoFar = 0;
         this.depth = 0;
         this.parent = null;
+        this.visited = false;
+        setStateID();
+    }
+    
+    public void setStateID() {
+    	StringBuilder str = new StringBuilder();
+    	for(int i = 0; i < this.puzzle.length; ++i) {
+    		for(int j = 0; j < this.puzzle[i].length; ++j) {
+    			str.append(this.puzzle[i][j]);
+    		}
+    	}
+    	this.stateID = str.toString();
+    }
+    
+    public String getStateID() {
+    	return this.stateID;
     }
     
     public void setVisited(boolean visited) {
@@ -139,8 +156,8 @@ public class Node {
         for (int i = 0; i < puzzle.length; ++i) {
             for (int j = 0; j < puzzle[i].length; ++j) {
                 if (puzzle[i][j] == 0) {
-                    if (i + 1 <= 2 && j + 1 <= 2) { // check if possible to move right
-                        int[][] newPuzzle = swapPieces(i, j, i + 1, j + 1, puzzle);
+                    if (j + 1 <= 2) { // check if possible to move right
+                        int[][] newPuzzle = swapPieces(i, j, i , j + 1, puzzle);
                         return new Node(newPuzzle);
                     }
                 }
@@ -163,14 +180,16 @@ public class Node {
         copy[pieceI][pieceJ] = temp;
         return copy;
     }
+ 
     
-
-
     public void print() {
+        System.out.println(" -------------------- ");
         for (int i = 0; i < this.puzzle.length; ++i) {
             for (int j = 0; j < this.puzzle[i].length; ++j) {
-                System.out.println(puzzle[i][j]);
+                System.out.print(" | " + puzzle[i][j] + " | ");
             }
+            System.out.println();
         }
+        System.out.println(" --------------------- ");
     }
 }
