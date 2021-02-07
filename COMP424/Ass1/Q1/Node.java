@@ -25,13 +25,13 @@ public class Node {
     }
     
     public void setStateID() {
-    	StringBuilder str = new StringBuilder();
+    	String str = new String();
     	for(int i = 0; i < this.puzzle.length; ++i) {
     		for(int j = 0; j < this.puzzle[i].length; ++j) {
-    			str.append(this.puzzle[i][j]);
+    			str+=(this.puzzle[i][j]);
     		}
     	}
-    	this.stateID = str.toString();
+    	this.stateID = str;
     }
     
     public String getStateID() {
