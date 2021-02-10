@@ -1,0 +1,29 @@
+
+3a) Brute force
+
+Mean ===> 2.47952792418201
+Max  ===> 3.1338012851933184
+Min  ===> 1.4722110867370166
+Deviation ===> 0.36376806064079975
+
+The code for the above computations can be found in the Search.java file (bruteForce100Instance function to be specific) 
+
+3b) Random
+
+Mean ===> 3.614500850205912
+Max  ===> 5.9752738627073025
+Min  ===> 1.8134808437134984
+Deviation ===> 0.7171609140642156
+Optimal Solution Found 8
+
+The algorithm found 8 instances with optimal solution.
+
+3c) Hill Climbing
+
+Mean ===> 2.47952792418201
+Max  ===> 3.1338012851933184
+Min  ===> 1.4722110867370166
+Deviation ===> 0.36376806064079975
+Optimal Solution Found 58
+
+The algorithm found 58 instances with optimal solution.
