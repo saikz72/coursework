@@ -1,5 +1,6 @@
 #include "interpreter.h"
 #include "shellmemory.h"
+#include "kernel.h"
 
 #include <stdlib.h>
 #include <stdint.h>
@@ -102,7 +103,21 @@ int quit()
     return 0;
 }
 
-int run(const char *path)
+int isFileDuplicated(char **tokens){
+    int i = 0;
+    while(tokens[i] != '\0'){
+        int j = i + 1;
+        while(tokens[j] != '\0'){
+            if(strcmp(tokens[i], tokens[j]) == 0){
+                return 1;
+            }
+            ++j;
+        }
+        ++i;
+    }
+    return 0;       //OK
+}
+int runScript(const char *path)
 {
     FILE *file = fopen(path, "r");
     if (file == NULL)
@@ -216,12 +231,35 @@ int interpret(char *raw_input)
             printf("run: Malformed command\n");
             free(tokens);
         }
-        int result = run(tokens[1]);
+        int result = runScript(tokens[1]);
         free(tokens);
         return result;
     }
 
-    printf("Unrecognized command \"%s\"\n", tokens[0]);
-    free(tokens);
-    return 1;
+    if(strcmp(tokens[0], "exec") == 0)
+    {
+        int errorCode = isFileDuplicated(tokens);
+        if(errorCode == 1){
+            printf("Error: Script <name> already loaded\n");
+            return errorCode;
+        }
+        myinit(tokens[1]);
+        myinit(tokens[2]);
+        // int result;
+        // if(tokens[1] != NULL){
+        //     result = myinit(tokens[1]);
+        // }
+        // if(tokens[2] != NULL){
+        //     result = myinit(tokens[2]);
+        //  }
+        // if(tokens[3] != NULL){
+        //      result = myinit(tokens[3]);
+        // }
+        scheduler();
+        return 0;
+    }else{
+        printf("Unrecognized command \"%s\"\n", tokens[0]);
+        free(tokens);
+        return 1;
+    }
 }

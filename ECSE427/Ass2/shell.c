@@ -1,5 +1,6 @@
 #include "interpreter.h"
 #include "shellmemory.h"
+#include "ram.h"
 
 #include <stdio.h>
 #include <stdint.h>
@@ -24,6 +25,7 @@ int shellUI()
             break;
 
         (void)interpret(line);
+        removeFromRam(0, 999);
         free(line);
     }
 
