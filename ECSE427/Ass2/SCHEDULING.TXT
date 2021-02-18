@@ -1,0 +1,51 @@
+3.1)
+Quanta = 2
+
+first: 748
+second: 744
+third: 960
+fourth: 753
+fifth: 920
+
+average: 825  
+
+3.2)
+Quanta = 5
+
+first:  733
+second: 646
+third: 1036
+fourth: 701
+fifth: 591
+
+average = 741
+
+3.2-1)
+Quanata = 20
+
+first: 763
+second: 745
+third: 990
+fourth: 749
+fifth: 745
+
+average = 798
+
+3.3)
+
+a)
+when quanta equals 2, I observed that the programs executes 2 lines of sched1.txt before executing sched2.txt and sched3.txt. As a result, the output displays on the screen 2 commands at a time from each file.
+
+When quanta equals 5, I boserved the same thing as explain above except the programs executs 5 lines at a time. 
+
+When quanta equals 20, the program executes all the lines from sched1.txt before switching over to sched2.txt and sched3.txt respectively. This is because no task switch occurs as the quanta is bigger than the number of lines in each file. 
+
+b)
+The average time to run the program was smallest when the quanta was 5. This results from the programs running to completion before task switch occurs which increases the average time to complete execution.
+
+
+c)
+This depends on how long on avearage a line of code from a process takes to be executed. For example if it takes 1 second to execute one line of code and the quanta for each process is 2, the exec program will only execute 2 lines of code from sched1.txt before a task switch occurs. 
+
+
+

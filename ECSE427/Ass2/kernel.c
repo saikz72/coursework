@@ -64,7 +64,6 @@ void terminateProcess(Node *node, int start, int end){
     free(node);
 }
 
-
 int myinit(char *filename){
     FILE *file = fopen(filename, "r");
     int s = 0;
@@ -85,9 +84,7 @@ int scheduler(){
     while((node = removeFromReady()) != NULL){        //cpu is available, DOUBLE CHECK!!!!
         PCB *pcb = node->pcb;
         setIP(pcb->PC);
-        //detail(pcb);
         if(pcb->end >= pcb->PC + 1){
-          //  printf("2 quanta\n");
             run(2); //run for 2 quanta
             pcb->PC = getIP();
             addToReady(pcb);
@@ -106,12 +103,5 @@ int scheduler(){
 
 int main(int argc, const char *argv[]){
     shellUI();
-    //  PCB *pcb = makePCB(0, 2);
-    // PCB *pcb1 = makePCB(2, 4);
-    // PCB *pcb2 = makePCB(4,6);
-    //  addToReady(pcb);
-    //  addToReady(pcb1);
-    //  addToReady(pcb2);
-    // printStuff();
     return 0;
 }

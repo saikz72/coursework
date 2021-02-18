@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 char *ram[1000];
+int size = 0;
 int idx = 0;        //keeps track of the next free cell in memory
 int failureFlag;
 
@@ -28,6 +29,7 @@ void addToRam(FILE *file, int *start, int *end){
     while(!feof(file)){
         ram[idx] = strdup(buffer);
         ++idx;
+        ++size;
         if(idx == 999){     //ram is full
             removeFromRam(0, idx);
             idx = *start;

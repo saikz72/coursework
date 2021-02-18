@@ -2,11 +2,13 @@
 #include "shellmemory.h"
 #include "kernel.h"
 
+#include <unistd.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
 #include <stdio.h>
 
+int num;
 char **tokenize(char *str)
 {
     size_t num_tokens = 1;
@@ -73,6 +75,7 @@ char **tokenize(char *str)
             ret_arr[i] = ret_arr[i] + 1;
         }
     }
+    num = counter;
 
     return ret_arr;
 }
@@ -166,6 +169,21 @@ int print(const char *key)
     return 0;
 }
 
+int exec(char *tokens[]){
+    num = num - 1;       //number of files in args
+    for(int i = 1; i <= num; ++i){
+        if(access(tokens[i], F_OK) != 0){
+            printf("%s does not exis\n", tokens[i]);
+            return 1;
+         }
+        if(strcmp(tokens[i], "") != 0){
+            myinit(tokens[i]);
+        }
+    }
+    scheduler();
+    return 0;
+}
+
 int interpret(char *raw_input)
 {
     char **tokens = tokenize(raw_input);
@@ -242,21 +260,11 @@ int interpret(char *raw_input)
         if(errorCode == 1){
             printf("Error: Script <name> already loaded\n");
             return errorCode;
-        }
-        myinit(tokens[1]);
-        myinit(tokens[2]);
-        // int result;
-        // if(tokens[1] != NULL){
-        //     result = myinit(tokens[1]);
-        // }
-        // if(tokens[2] != NULL){
-        //     result = myinit(tokens[2]);
-        //  }
-        // if(tokens[3] != NULL){
-        //      result = myinit(tokens[3]);
-        // }
-        scheduler();
-        return 0;
+         }
+         int result = exec(tokens);
+         free(tokens);
+         return result;
+       
     }else{
         printf("Unrecognized command \"%s\"\n", tokens[0]);
         free(tokens);

@@ -1,0 +1,5 @@
+set x 10
+print x
+set y 20
+print y
+print z
