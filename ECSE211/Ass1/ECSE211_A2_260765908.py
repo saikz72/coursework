@@ -146,15 +146,16 @@ def find_three_smallest_even(nums: list[int]):
 
     for _ in range(OUTPUT_SIZE):
         smallest_even = INF
+        idx = 0
         for i in range(len(nums)):
             if i not in used_indices and nums[i] < smallest_even and nums[i] % 2 == 0:
                 smallest_even = nums[i]
-                used_indices.append(nums[i])
+                idx = i
         if smallest_even < INF:
             smallest_numbers.append(smallest_even)
+            used_indices.append(idx)
 
     return smallest_numbers
-
 
 # Question 2.4
 def q2_4():
