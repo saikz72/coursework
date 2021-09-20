@@ -1,11 +1,10 @@
-aa#ignore file
-
+.DS_Store
 #compile class file
 *.class
 #log file
 *.log
 #all dot files
-.DS_Store
+*.DS_Store
 *.classpath
 *.project
 
