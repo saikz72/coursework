@@ -4,11 +4,11 @@
 # Assignment 2 - Introduction to Python
 
 # Assignment setup: DO NOT MODIFY
-
 from __future__ import annotations  # required until Python 3.10+
 from statistics import mean  # mean = average
 from textwrap import dedent
 from types import SimpleNamespace as ColorNames
+from math import sqrt
 COLOR = ColorNames(VIOLET="\033[95m", BLUE="\033[94m", CYAN="\033[96m", GREEN="\033[92m", YELLOW="\033[93m",
                    ORANGE="\u001b[31;1m", RED="\033[91m", ENDC="\033[0m")
 color_str = lambda color, text: f"{color}{text}{COLOR.ENDC}"  # return the given text in the given color
@@ -245,7 +245,39 @@ def alls():
 # # Part 4 - Translation from Java
 # ###################################################################
 
-...
+class Point:
+    EPSILON = 0.003
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def distance_to(self, other: Point):      #use type alias instead :: probably wrong!!
+        dx = other.x - self.x
+        dy = other.y - self.y
+        return sqrt((dx * dx) + (dy * dy)
+
+    def make_points_from_string(self, s : str):
+        result = []
+        if s == None or ')' not in s:
+            return result
+        s = s.replace("\\s+", "").replace("\\(", "").replace("\\)", "\\)")
+        
+        for fragment in s.split("\\"):
+            xy = fragment.split(",")
+            result.append(Point(float(xy[0]), float(xy[1])))
+        
+        return result
+
+    def __eq__(self, o):
+        if not isinstance(o, Point):
+            return false
+        Point other = Point(o)
+        return abs(self.x - other.x) < EPSILON and abs(y - other.y) < EPSILON
+
+    def __str__(self):
+        return "(" + round(self.x, 2) + ", " + round(self.y, 2) ")"
+ 
 
 # End of graded part of the assignment
 
