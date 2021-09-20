@@ -18,8 +18,8 @@ dummy_function_template = lambda *_: _
 ...
 
 
-NAME = "Your name here"
-STUDENT_ID = ...
+NAME = "Saikou ceesay"
+STUDENT_ID = 260765908
 
 
 ###################################################################
@@ -89,12 +89,12 @@ def calculate_student_avg_hours(courses: list[dict[str, float]]) -> dict[str, fl
     average_hours: dict[str, float] = {}
     students: dict[str, list[float]] = {}
 
-    for hours_spent_by_student in range(len(courses)):
+    for hours_spent_by_student in (courses):
         for student, hour in hours_spent_by_student.items():
             if student in students:
-                students[student] = students[student].append(hour)      # error here!!!!
+                students[student] = students[student] + [hour]      # error here!!!!
             else:
-                students[student] = hour
+                students[student] = [hour]
     
     for student, hours in students.items():
         total = sum(hours)
@@ -255,9 +255,9 @@ class Point:
     def distance_to(self, other: Point):      #use type alias instead :: probably wrong!!
         dx = other.x - self.x
         dy = other.y - self.y
-        return sqrt((dx * dx) + (dy * dy)
+        return sqrt((dx * dx) + (dy * dy))
 
-    def make_points_from_string(self, s : str):
+    def make_points_from_string(self, s ):
         result = []
         if s == None or ')' not in s:
             return result
@@ -272,11 +272,11 @@ class Point:
     def __eq__(self, o):
         if not isinstance(o, Point):
             return false
-        Point other = Point(o)
+        other = Point(o)
         return abs(self.x - other.x) < EPSILON and abs(y - other.y) < EPSILON
 
     def __str__(self):
-        return "(" + round(self.x, 2) + ", " + round(self.y, 2) ")"
+        return "(" + str(round(self.x, 2)) + ", " + str(round(self.y, 2)) + ")"
  
 
 # End of graded part of the assignment
@@ -299,8 +299,7 @@ if __name__ == "__main__":
     
     # Question 1.5
     courses = [
-        ecse200_hours := {"Alpha": 3.5, "Bravo": 2.5, "Charlie": 4},
-        ...
+        ecse200_hours := {"Alpha": 3.5, "Bravo": 2.5, "Charlie": 4}, {"Alpha": 5.0, "Bravo": 3.0}
     ]
     print(f"Q1.5 student average hours are {calculate_student_avg_hours(courses)}")
 
