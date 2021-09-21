@@ -192,7 +192,7 @@ get_sensor_readings = move_straight = move_left = move_right = log_to_file = dum
 
 def aw():
     """
-    ...
+    Controls the motion of the robot based on the value read by the sensor
     """
     while True:
         r = get_sensor_readings()
@@ -207,7 +207,7 @@ def aw():
 
 def g(n):
     """
-    ...
+    Returns the appropriate alphabet letter base on the input value 'n'
     """
     if 0 <= n < 50:
         return "F"
@@ -223,14 +223,14 @@ def g(n):
 
 def r(s, n):
     """
-    ...
+    Logs the data to a file
     """
     log_to_file(f"{s.name},{n},{g(n)}")
 
 
 def alls():
     """
-    ...
+    Retrieves the value of the objects 's' and logs it to a file
     """
     s = {
         "Alpha": 89,
@@ -252,20 +252,19 @@ class Point:
         self.x = x
         self.y = y
 
-    def distance_to(self, other: Point):      #use type alias instead :: probably wrong!!
+    def distance_to(self, other: Point):      
         dx = other.x - self.x
         dy = other.y - self.y
         return sqrt((dx * dx) + (dy * dy))
 
-    def make_points_from_string(self, s ):
+    def make_points_from_string(s: str) -> list[Point]:
         result = []
         if s == None or ')' not in s:
             return result
-        s = s.replace("\\s+", "").replace("\\(", "").replace("\\)", "\\)")
+        s = s.replace("\\s+", "").replace("(", "").replace(")", "").split(",")
         
-        for fragment in s.split("\\"):
-            xy = fragment.split(",")
-            result.append(Point(float(xy[0]), float(xy[1])))
+        for i in range(0, len(s), 2):
+            result.append(Point(float(s[i]), float(s[i+1])))
         
         return result
 
@@ -322,8 +321,8 @@ if __name__ == "__main__":
 
     # Question 4
     # Uncomment the following lines after completing the question to test your Point class
-    # print("Q4:")
-    # points = Point.make_points_from_string("(1,1.25), (2,5),(-3, 3)")
-    # for p in points:
-    #     print(p)
-    # print(f"The distance between {(p1 := points[0])} and {(p2 := points[1])} is {p1.distance_to(p2)}.")
+    print("Q4:")
+    points = Point.make_points_from_string("(1,1.25), (2,5),(-3, 3)")
+    for p in points:
+        print(p)
+    print(f"The distance between {(p1 := points[0])} and {(p2 := points[1])} is {p1.distance_to(p2)}.")
